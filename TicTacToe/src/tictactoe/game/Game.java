@@ -169,10 +169,39 @@ public final class Game {
 		int xCell = move.getX();
 		int yCell = move.getY();
 		int turn = move.getPiece().getOwner();
-		List<Position> newBoard = new ArrayList<Position>(origBoard);
+		//List<Position> newBoard = new ArrayList<Position>(origBoard);
+		List<Position> newBoard = copyBoard(origBoard);
 		if (origBoard.get((xCell*boardHeight)+yCell).getPiece().getOwner() == 0)
 		{
 			newBoard.get((xCell*boardHeight)+yCell).getPiece().setOwner(turn);
+		}
+		
+		return newBoard;
+	}
+	
+	public void printBoardText(List<Position> board)
+	{
+		int i = 0;
+		for (int y = boardHeight - 1; y >= 0; y--)
+		{
+			System.out.print("| ");
+			for (int x = 0; x < boardWidth; x++)
+			{
+				System.out.print(board.get(x*boardHeight + y).getPiece().getOwner() + " | ");
+				i++;
+			}
+			System.out.println();
+		}
+		System.out.println();
+	}
+	
+	public List<Position> copyBoard(List<Position> origBoard)
+	{
+		ArrayList<Position> newBoard = new ArrayList<Position>();
+		
+		for (Position origP : origBoard)
+		{
+			newBoard.add(new Position(origP.getX(), origP.getY(), new GamePiece(origP.getPiece().getPieceName(), origP.getPiece().getOwner())));
 		}
 		
 		return newBoard;

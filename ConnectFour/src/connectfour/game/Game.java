@@ -3,6 +3,9 @@ package connectfour.game;
 import java.util.ArrayList;
 import java.util.List;
 
+import connectfour.game.GamePiece;
+import connectfour.game.Position;
+
 public final class Game {
 	private List<Position> board;
 	private int boardWidth = 7, boardHeight = 6;
@@ -157,7 +160,8 @@ public final class Game {
 			System.out.println("Game already won by: " + isWinningBoard(origBoard));
 			return null;
 		}
-		List<Position> newBoard = new ArrayList<Position>(origBoard);
+		//List<Position> newBoard = new ArrayList<Position>(origBoard);
+		List<Position> newBoard = copyBoard(origBoard);
 		int xCell = move.getX();
 		int turn = move.getPiece().getOwner();
 		// check the row where the piece lands
@@ -175,6 +179,34 @@ public final class Game {
 			}
 		}
 		
+		
+		return newBoard;
+	}
+	
+	public void printBoardText(List<Position> board)
+	{
+		int i = 0;
+		for (int y = boardHeight - 1; y >= 0; y--)
+		{
+			System.out.print("| ");
+			for (int x = 0; x < boardWidth; x++)
+			{
+				System.out.print(board.get(x*boardHeight + y).getPiece().getOwner() + " | ");
+				i++;
+			}
+			System.out.println();
+		}
+		System.out.println();
+	}
+	
+	public List<Position> copyBoard(List<Position> origBoard)
+	{
+		ArrayList<Position> newBoard = new ArrayList<Position>();
+		
+		for (Position origP : origBoard)
+		{
+			newBoard.add(new Position(origP.getX(), origP.getY(), new GamePiece(origP.getPiece().getPieceName(), origP.getPiece().getOwner())));
+		}
 		
 		return newBoard;
 	}
